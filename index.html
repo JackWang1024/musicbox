@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" media="screen" href="stylesheets/reset.css">
+  <link rel="stylesheet" media="screen" href="stylesheets/header.css">
+  <link rel="stylesheet" media="screen" href="stylesheets/color.css">
+  <link rel="stylesheet" media="screen" href="stylesheets/font.css">
+  <link rel="stylesheet" media="screen" href="stylesheets/play_index.css">
+  <script>
+    /*定义全局变量audio*/    
+    var audio;
+    /*定义全局变量userId */
+    var userId = 1;
+  </script>
+  <script src="javascripts/jquery-1.7.1.min.js"></script>
+  <script src="javascripts/musicbox.js"></script>
+  <script src="javascripts/music_getData.js"></script>
+  <script src="javascripts/audio.min.js"></script>
+  <script src="javascripts/juicer.js"></script>
+</head>
+<body>
+  <audio>
+  </audio>
+  <div class="header_container">
+    <div class="header">
+      <div class="header_logo"><img src="images/iMuseLogo.png"/></div>
+      <div class="header_search">
+        <input  type="text" placeholder="iMuse在线播放器测试版"/>
+        <a href="#"><i></i></a>
+        <div class="header_search_bar">
+        </div>
+        <div class="header_search_bar_rightRect"></div>
+        <div class="header_search_bar_leftRect"></div>
+      </div>
+      <div class="header_service">
+        <ul>
+          <li class="header_service_item"><a href="#"><img src="images/index/icon_my_music.png" /><span>我的音乐</span></a></li>
+          <li class="header_service_item"><a href="#"><img src="images/index/icon_idea_zone.png" /><span>灵感空间</span></a></li>
+          <li class="header_service_item"><a href="#"><img src="images/index/icon_my_homepage.png" /><span>我的空间</span></a></li>
+          <li class="header_service_item">
+            <ul>
+              <li><a class="fa fa-twitter" href="#"></a><a class="fa fa-facebook" href="#"></a></li>
+              <li><a class="fa fa-google" href="#"></a><a class="fa fa-instagram" href="#"></a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- end header -->
+  </div>
+  <!-- header_container -->
+  <div class="red_bar"></div>
+  <!-- play_container start  -->
+  <div class="play_container">
+    <div class="play_container_left">
+      <ul>
+        <li class="active songPlayMenu"><a href="#">正在播放</a></li>
+        <li class="songPlayRecord"><a href="#">播放历史</a></li>
+        <li class="songPlayCollect"><a href="#">我的收藏</a></li>
+      </ul>
+      <ul class="play_container_left_bottom">
+        <li class="play_list_menu"><a href="#">我的歌单</a><i></i></li>
+      </ul>
+    </div><!-- end play_container_left -->
+    <div class="play_container_center">
+      <ul class="play_container_center_title">
+
+        <li class="left">歌曲</li>
+        <li class="center" >演唱者</li>
+        <li class="right" >专辑</li>
+
+      </ul><!-- end title -->
+
+      <div class="play_container_center_content">
+       <!-- 最多显示9行信息，输出时需注意 -->
+
+     </div>
+
+   </div><!-- end div.play_container_center -->
+
+   <div class="play_container_center_bottom">
+     <input type="checkbox" />
+     <a class="button_first" href="#"><i></i><span>删除</span></a>
+     <a class="button_second" href="#"><i></i><span>收藏</span></a>
+     <a class="button_third" href="#"><i></i><span>添加到歌单</span></a>
+     <a class="button_fourth" href="#"><i></i><span>更多</span></a>
+
+   </div><!-- end item -->
+
+   <div class="play_container_right">
+    <img src="images/play/ablum_pic.png" />
+    <div class="play_lrc_container">
+
+      <ul>
+      </ul>
+
+    </div><!-- end play_lrc_container -->
+  </div><!-- end div.play_container_right  -->
+</div><!-- end play container -->
+
+<div class="play_music_container">
+  <div class="play_music_content">
+    <div class="left_panel">
+     <a class="left_panel_prev" href="#"></a>
+     <a class="left_panel_play" href="#"></a>
+     <a class="left_panel_next" href="#"></a>
+   </div>
+   <div class="center_panel">
+     <h4 class="center_panel_title"></h4>
+     <span class="center_panel_time_cur"></span>
+     <span class="center_panel_time_all duration"></span>
+     <div class="center_panel_bar">
+       <div class="center_panel_cur_bar"></div>
+       <a href="#" class="center_panel_cur_bar_pointer"></a>
+     </div>
+   </div>
+   <div class="right_panel">
+    <a class="noise" href="#"></a>
+    <div class="right_panel_bar">
+      <div class="right_panel_bar_cur">
+      </div>
+      <a class="right_panel_bar_pointer" href="#"></a>
+    </div>
+  </div><!-- end right panel -->
+
+</div><!-- end play_music_content -->
+</div><!-- end play_music_container -->
+
+<script id="songList_tpl" type="text/template">
+  {@each bean.trackList as track,i}
+    <ul class="play_container_center_item" song-id="${track.id}" song-name="${track.name}" author-name="${track.author}" song-duration=${track.duration} audio-src="${track.audioFile}" release-src="${track.releaseFile}" lyricFile=${track.lyricFile} ><!-- һ��item���һ��������Ϣ -->
+        <li class="left"> 
+            <span class="left_input" ><input type="checkbox" name="checkbox"/></span>
+            <span class="left_title">${track.name}</span></li>
+            <li class="center"><span>${track.author}</span></li>
+            <li class="right"><span>${bean.album.name}</span>
+            <a href="#" id="buttons_collect_first" class="buttons_delete"></a>
+            <a href="#" class="buttons_more"></a>
+            <a href="#" class="buttons_collect"></a>
+          </li>
+      </ul><!-- end item -->
+    {@/each}
+</script>
+<script id="singleSong_tpl" type="text/template">
+    <ul class="play_container_center_item" song-id="${track.id}" song-name="${track.name}" author-name="${track.author}" song-duration=${track.duration} audio-src="${track.audioFile}" release-src="${track.releaseFile}" lyricFile=${track.lyricFile} ><!-- һ��item���һ��������Ϣ -->
+        <li class="left"> 
+            <span class="left_input" ><input type="checkbox" name="checkbox"/></span>
+            <span class="left_title">${track.name}</span></li>
+            <li class="center"><span>${track.author}</span></li>
+            <li class="right"><span>${track.albumName}</span>
+            <a href="#" id="buttons_collect_first" class="buttons_delete"></a>
+            <a href="#" class="buttons_more"></a>
+            <a href="#" class="buttons_collect"></a>
+          </li>
+      </ul><!-- end item -->
+</script>
+<script id="songList_collec" type="text/template">
+  {@each trackList as track,i}
+    <ul class="play_container_center_item" song-id="${track.id}" song-name="${track.name}" author-name="${track.author}" song-duration=${track.duration} audio-src="${track.audioFile}" release-src="${track.releaseFile}" lyricFile=${track.lyricFile} ><!-- һ��item���һ��������Ϣ -->
+        <li class="left"> 
+            <span class="left_input" ><input type="checkbox" name="checkbox"/></span>
+            <span class="left_title">${track.name}</span></li>
+            <li class="center"><span>${track.author}</span></li>
+            <li class="right"><span>${track.albumName}</span>
+            <a href="#" id="buttons_collect_first_dele" class="buttons_delete"></a>
+            <a href="#" class="buttons_more"></a>
+            <a href="#" class="buttons_collect"></a>
+          </li>
+      </ul><!-- end item -->
+  {@/each}
+</script>
+<!-- end juicer template  -->
+</body>
+</html>
